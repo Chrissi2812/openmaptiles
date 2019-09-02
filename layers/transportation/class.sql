@@ -24,6 +24,30 @@ CREATE OR REPLACE FUNCTION highway_class(highway TEXT, public_transport TEXT) RE
     END;
 $$ LANGUAGE SQL IMMUTABLE;
 
+-- The classes for highways are derived from the classes used in ClearTables
+-- https://github.com/ClearTables/ClearTables/blob/master/transportation.lua
+CREATE OR REPLACE FUNCTION shield(ref TEXT) RETURNS TEXT AS $$
+SELECT CASE
+           WHEN ref ~ '^(A\s\d+;?)+' THEN 'de-motorway'
+           WHEN ref ~ '^(B\s\d+;?)+' THEN 'de-primary'
+           WHEN ref ~ '^((K|L)\s\d+;?)+' THEN 'de-secondary'
+           WHEN ref ~ '^(E\s\d+;?)+' THEN 'eu-default'
+           ELSE NULL
+           END;
+$$ LANGUAGE SQL IMMUTABLE;
+
+-- The classes for highways are derived from the classes used in ClearTables
+-- https://github.com/ClearTables/ClearTables/blob/master/transportation.lua
+CREATE OR REPLACE FUNCTION sub_ref(ref TEXT) RETURNS TEXT AS $$
+SELECT CASE
+           WHEN ref ~ '^(A\s\d+;?)+' THEN 'de-motorway'
+           WHEN ref ~ '^(B\s\d+;?)+' THEN 'de-primary'
+           WHEN ref ~ '^((K|L)\s\d+;?)+' THEN 'de-secondary'
+           WHEN ref ~ '^(E\s\d+;?)+' THEN 'eu-default'
+           ELSE NULL
+           END;
+$$ LANGUAGE SQL IMMUTABLE;
+
 -- The classes for railways are derived from the classes used in ClearTables
 -- https://github.com/ClearTables/ClearTables/blob/master/transportation.lua
 CREATE OR REPLACE FUNCTION railway_class(railway TEXT) RETURNS TEXT AS $$
