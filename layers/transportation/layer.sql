@@ -108,7 +108,6 @@ indoor INT, surface TEXT) AS $$
         UNION ALL
 
         -- etldoc: osm_highway_linestring_gen2  ->  layer_transportation:z9
-        -- etldoc: osm_highway_linestring_gen2  ->  layer_transportation:z10
         SELECT
             osm_id, geometry,
             highway, NULL AS railway, NULL AS aerialway, NULL AS shipway,
@@ -119,7 +118,22 @@ indoor INT, surface TEXT) AS $$
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL AS surface, z_order
         FROM osm_highway_linestring_gen2
-        WHERE zoom_level BETWEEN 9 AND 10
+        WHERE zoom_level = 9
+          AND st_length(geometry)>zres(11)
+        UNION ALL
+
+        -- etldoc: osm_highway_linestring_gen1  ->  layer_transportation:z10
+        SELECT
+            osm_id, geometry,
+            highway, NULL AS railway, NULL AS aerialway, NULL AS shipway,
+            NULL AS public_transport, NULL AS service,
+            NULL::boolean AS is_bridge, NULL::boolean AS is_tunnel,
+            NULL::boolean AS is_ford,
+            NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
+            layer, NULL::int AS level, NULL::boolean AS indoor,
+            NULL AS surface, z_order
+        FROM osm_highway_linestring_gen1
+        WHERE zoom_level = 10
           AND st_length(geometry)>zres(11)
         UNION ALL
 
