@@ -8,9 +8,14 @@ $$ LANGUAGE SQL IMMUTABLE STRICT;
 CREATE OR REPLACE FUNCTION layer_transportation(bbox geometry, zoom_level int)
 RETURNS TABLE(osm_id bigint, geometry geometry, class text, subclass text,
 ramp int, oneway int, brunnel TEXT, service TEXT, layer INT, level INT,
+ref TEXT, ref_length INT, shield TEXT,
 indoor INT, surface TEXT) AS $$
     SELECT
         osm_id, geometry,
+        NULLIF(name, '') AS name,
+        COALESCE(NULLIF(name_en, ''), name) AS name_en,
+        COALESCE(NULLIF(name_de, ''), name, name_en) AS name_de,
+        NULLIF(ref, ''), NULLIF(LENGTH(ref), 0) AS ref_length,
         CASE
             WHEN NULLIF(highway, '') IS NOT NULL OR NULLIF(public_transport, '') IS NOT NULL THEN highway_class(highway, public_transport)
             WHEN NULLIF(railway, '') IS NOT NULL THEN railway_class(railway)
@@ -32,6 +37,7 @@ indoor INT, surface TEXT) AS $$
         brunnel(is_bridge, is_tunnel, is_ford) AS brunnel,
         NULLIF(service, '') AS service,
         NULLIF(layer, 0) AS layer,
+        shield(ref) AS shield,
         "level",
         CASE WHEN indoor=TRUE THEN 1 ELSE NULL END as indoor,
         NULLIF(surface, '') AS surface
