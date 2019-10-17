@@ -8,7 +8,7 @@ $$ LANGUAGE SQL IMMUTABLE STRICT;
 CREATE OR REPLACE FUNCTION layer_transportation(bbox geometry, zoom_level int)
 RETURNS TABLE(osm_id bigint, geometry geometry, class text, subclass text,
 ramp int, oneway int, brunnel TEXT, service TEXT, layer INT, level INT,
-ref TEXT, ref_length INT, shield TEXT,
+ref TEXT, _ref TEXT, ref_length INT, shield TEXT, name text, name_en text, name_de text,
 indoor INT, surface TEXT) AS $$
     SELECT
         osm_id, geometry,
@@ -37,7 +37,9 @@ indoor INT, surface TEXT) AS $$
         brunnel(is_bridge, is_tunnel, is_ford) AS brunnel,
         NULLIF(service, '') AS service,
         NULLIF(layer, 0) AS layer,
+        ref AS _ref,
         shield(ref) AS shield,
+        ref(ref) as ref,
         "level",
         CASE WHEN indoor=TRUE THEN 1 ELSE NULL END as indoor,
         NULLIF(surface, '') AS surface
@@ -51,6 +53,7 @@ indoor INT, surface TEXT) AS $$
             NULL::boolean AS is_ford,
             NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
             NULL::int AS layer, NULL::int AS level, NULL::boolean AS indoor,
+            ref, name, name_en, name_de,
 	    NULL AS surface,
             z_order
         FROM osm_transportation_merge_linestring_gen7
@@ -66,6 +69,7 @@ indoor INT, surface TEXT) AS $$
             NULL::boolean AS is_ford,
             NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
             NULL::int AS layer, NULL::int AS level, NULL::boolean AS indoor,
+            ref, name, name_en, name_de,
             NULL AS surface, z_order
         FROM osm_transportation_merge_linestring_gen6
         WHERE zoom_level = 5
@@ -80,6 +84,7 @@ indoor INT, surface TEXT) AS $$
             NULL::boolean AS is_ford,
             NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
             NULL::int AS layer, NULL::int AS level, NULL::boolean AS indoor,
+            ref, name, name_en, name_de,
             NULL AS surface, z_order
         FROM osm_transportation_merge_linestring_gen5
         WHERE zoom_level = 6
@@ -94,6 +99,7 @@ indoor INT, surface TEXT) AS $$
             NULL::boolean AS is_ford,
             NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
             NULL::int AS layer, NULL::int AS level, NULL::boolean AS indoor,
+            ref, name, name_en, name_de,
             NULL AS surface, z_order
         FROM osm_transportation_merge_linestring_gen4
         WHERE zoom_level = 7
@@ -108,6 +114,7 @@ indoor INT, surface TEXT) AS $$
             NULL::boolean AS is_ford,
             NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
             NULL::int AS layer, NULL::int AS level, NULL::boolean AS indoor,
+            ref, name, name_en, name_de,
             NULL AS surface, z_order
         FROM osm_transportation_merge_linestring_gen3
         WHERE zoom_level = 8
@@ -122,6 +129,7 @@ indoor INT, surface TEXT) AS $$
             NULL::boolean AS is_ford,
             NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
             layer, NULL::int AS level, NULL::boolean AS indoor,
+            ref, name, name_en, name_de,
             NULL AS surface, z_order
         FROM osm_highway_linestring_gen2
         WHERE zoom_level = 9
@@ -137,6 +145,7 @@ indoor INT, surface TEXT) AS $$
             NULL::boolean AS is_ford,
             NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
             layer, NULL::int AS level, NULL::boolean AS indoor,
+            ref, name, name_en, name_de,
             NULL AS surface, z_order
         FROM osm_highway_linestring_gen1
         WHERE zoom_level = 10
@@ -152,6 +161,7 @@ indoor INT, surface TEXT) AS $$
             NULL::boolean AS is_ford,
             NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
             layer, NULL::int AS level, NULL::boolean AS indoor,
+            ref, name, name_en, name_de,
             NULL AS surface, z_order
         FROM osm_highway_linestring_gen1
         WHERE zoom_level = 11
@@ -166,6 +176,7 @@ indoor INT, surface TEXT) AS $$
             highway, NULL AS railway, NULL AS aerialway, NULL AS shipway,
             public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, man_made,
+            ref, name, name_en, name_de,
             layer,
             CASE WHEN highway IN ('footway', 'steps') THEN "level"
                 ELSE NULL::int
