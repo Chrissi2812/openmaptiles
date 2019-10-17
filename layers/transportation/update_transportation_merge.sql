@@ -46,7 +46,7 @@ CREATE MATERIALIZED VIEW osm_transportation_merge_linestring AS (
           min(z_order) AS z_order
       FROM osm_highway_linestring
       WHERE highway IN ('motorway','trunk', 'primary') AND ST_IsValid(geometry)
-      group by highway
+      group by name, name_en, name_de, ref, highway
     ) AS highway_union
 );
 CREATE INDEX IF NOT EXISTS osm_transportation_merge_linestring_geometry_idx
