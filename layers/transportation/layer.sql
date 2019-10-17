@@ -215,6 +215,7 @@ indoor INT, surface TEXT) AS $$
             NULL::boolean AS is_bridge, NULL::boolean AS is_tunnel,
             NULL::boolean AS is_ford,
             NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
+            ref, name, name_en, name_de,
             NULL::int AS layer, NULL::int AS level, NULL::boolean AS indoor,
 	    NULL as surface, z_order
         FROM osm_railway_linestring_gen5
@@ -230,6 +231,7 @@ indoor INT, surface TEXT) AS $$
             NULL::boolean AS is_bridge, NULL::boolean AS is_tunnel,
             NULL::boolean AS is_ford,
             NULL::boolean AS is_ramp, NULL::int AS is_oneway, NULL as man_made,
+            ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
 	    NULL AS surface, z_order
         FROM osm_railway_linestring_gen4
@@ -243,6 +245,7 @@ indoor INT, surface TEXT) AS $$
             NULL AS highway, railway, NULL AS aerialway, NULL AS shipway,
             NULL AS public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, NULL as man_made,
+            ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL AS surface, z_order
         FROM osm_railway_linestring_gen3
@@ -256,6 +259,7 @@ indoor INT, surface TEXT) AS $$
             NULL AS highway, railway, NULL AS aerialway, NULL AS shipway,
             NULL AS public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, NULL as man_made,
+            ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL as surface, z_order
         FROM osm_railway_linestring_gen2
@@ -269,6 +273,7 @@ indoor INT, surface TEXT) AS $$
             NULL AS highway, railway, NULL AS aerialway, NULL AS shipway,
             NULL AS public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, NULL as man_made,
+            ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL as surface, z_order
         FROM osm_railway_linestring_gen1
@@ -283,6 +288,7 @@ indoor INT, surface TEXT) AS $$
             NULL AS highway, railway, NULL AS aerialway, NULL AS shipway,
             NULL AS public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, NULL as man_made,
+            ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL as surface, z_order
         FROM osm_railway_linestring
@@ -297,6 +303,7 @@ indoor INT, surface TEXT) AS $$
             NULL AS highway, NULL as railway, aerialway, NULL AS shipway,
             NULL AS public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, NULL as man_made,
+            ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL AS surface, z_order
         FROM osm_aerialway_linestring_gen1
@@ -310,6 +317,7 @@ indoor INT, surface TEXT) AS $$
             NULL AS highway, NULL as railway, aerialway, NULL AS shipway,
             NULL AS public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, NULL as man_made,
+            NULL::text ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL AS surface, z_order
         FROM osm_aerialway_linestring
@@ -322,6 +330,7 @@ indoor INT, surface TEXT) AS $$
             NULL AS highway, NULL AS railway, NULL AS aerialway, shipway,
             NULL AS public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, NULL as man_made,
+            NULL::text ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL AS surface, z_order
         FROM osm_shipway_linestring_gen2
@@ -334,6 +343,7 @@ indoor INT, surface TEXT) AS $$
             NULL AS highway, NULL AS railway, NULL AS aerialway, shipway,
             NULL AS public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, NULL as man_made,
+            NULL::text ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL AS surface, z_order
         FROM osm_shipway_linestring_gen1
@@ -347,6 +357,7 @@ indoor INT, surface TEXT) AS $$
             NULL AS highway, NULL AS railway, NULL AS aerialway, shipway,
             NULL AS public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, NULL as man_made,
+            NULL::text ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL AS surface, z_order
         FROM osm_shipway_linestring
@@ -367,6 +378,7 @@ indoor INT, surface TEXT) AS $$
                 ELSE FALSE
             END AS is_bridge, FALSE AS is_tunnel, FALSE AS is_ford,
             FALSE AS is_ramp, FALSE::int AS is_oneway, man_made,
+            NULL::text ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL AS surface, z_order
         FROM osm_highway_polygon
