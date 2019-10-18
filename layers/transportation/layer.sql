@@ -303,7 +303,7 @@ indoor INT, surface TEXT) AS $$
             NULL AS highway, NULL as railway, aerialway, NULL AS shipway,
             NULL AS public_transport, service_value(service) AS service,
             is_bridge, is_tunnel, is_ford, is_ramp, is_oneway, NULL as man_made,
-            ref as _ref, name, name_en, name_de,
+            NULL::text as _ref, name, name_en, name_de,
             layer, NULL::int AS level, NULL::boolean AS indoor,
             NULL AS surface, z_order
         FROM osm_aerialway_linestring_gen1
