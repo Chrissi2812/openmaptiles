@@ -8,7 +8,7 @@ $$ LANGUAGE SQL IMMUTABLE STRICT;
 CREATE OR REPLACE FUNCTION layer_transportation(bbox geometry, zoom_level int)
 RETURNS TABLE(osm_id bigint, geometry geometry, class text, subclass text,
 ramp int, oneway int, brunnel TEXT, service TEXT, layer INT, level INT,
-ref TEXT, _ref TEXT, ref_length INT, shield TEXT, name text, name_en text, name_de text,
+ref TEXT, ref_length INT, shield TEXT, name text, name_en text, name_de text,
 indoor INT, surface TEXT) AS $$
     SELECT
         osm_id, geometry,
@@ -34,10 +34,9 @@ indoor INT, surface TEXT) AS $$
         NULLIF(service, '') AS service,
         NULLIF(layer, 0) AS layer,
         "level",
-        ref(ref) as ref,
-        ref AS _ref,
-        NULLIF(ref, ''), NULLIF(LENGTH(ref), 0) AS ref_length,
-        shield(ref) AS shield,
+        ref(_ref) as ref,
+        NULLIF(_ref, ''), NULLIF(LENGTH(ref(_ref)), 0) AS ref_length,
+        shield(_ref) AS shield,
         NULLIF(name, '') AS name,
         COALESCE(NULLIF(name_en, ''), name) AS name_en,
         COALESCE(NULLIF(name_de, ''), name, name_en) AS name_de,
