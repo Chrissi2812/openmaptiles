@@ -96,6 +96,19 @@ layer:
     layer:
       description: |
           Original value of [`layer`](http://wiki.openstreetmap.org/wiki/Key:layer) tag.
+    name: The OSM [`name`](http://wiki.openstreetmap.org/wiki/Highways#Names_and_references) value of the highway.
+    name_en: English name `name:en` if available, otherwise `name`.
+    name_de: German name `name:de` if available, otherwise `name` or `name:en`.
+    ref: The OSM [`ref`](http://wiki.openstreetmap.org/wiki/Key:ref) tag of the motorway or its network.
+    ref_length: Length of the `ref` field. Useful for having a shield icon as background for labeling motorways.
+    shield:
+      description: |
+          This determines the shield which should be showed below she ref number.
+      values:
+      - de-motorway
+      - de-primary
+      - de-secondary
+      - eu-default
     level:
       description: |
           Experimental feature! Filled only for steps and footways. Original
@@ -115,7 +128,7 @@ layer:
   datasource:
     geometry_field: geometry
     srid: 900913
-    query: (SELECT geometry, class, subclass, oneway, ramp, brunnel, service, layer, level, indoor, surface FROM layer_transportation(!bbox!, z(!scale_denominator!))) AS t
+    query: (SELECT geometry, class, subclass, oneway, ramp, brunnel, service, ref, ref_length, name, name_de, name_en, layer, level, indoor, surface FROM layer_transportation(!bbox!, z(!scale_denominator!))) AS t
 schema:
   - ./class.sql
   - ./update_transportation_merge.sql
