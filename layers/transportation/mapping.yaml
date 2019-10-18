@@ -110,6 +110,10 @@ ref_field: &ref
   key: ref
   name: ref
   type: string
+shield_field: &shield
+  key: shield
+  name: shield
+  type: string
 network_field: &network
   key: network
   name: network
@@ -159,6 +163,7 @@ tables:
     - *name
     - *name_en
     - *name_de
+    - *shield
     - name: tags
       type: hstore_tags
     - *short_name
